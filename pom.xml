@@ -155,6 +155,11 @@
             <version>4.0.4.Final</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.11</version>
+        </dependency>
 
     </dependencies>
 </project>

@@ -57,6 +57,9 @@ public class User implements UserDetails, Serializable {
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE) // this needs to be LAZY - mainul35
     private List<Post> posts;
 
+    @OneToOne
+    private BankAccount bankAccount;
+
     public long getId() {
         return id;
     }
@@ -211,4 +214,13 @@ public class User implements UserDetails, Serializable {
     public void setPosts(List<Post> posts) {
         this.posts = posts;
     }
+
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+
+    public void setBankAccount(BankAccount bankAccount) {
+        this.bankAccount = bankAccount;
+    }
+
 }

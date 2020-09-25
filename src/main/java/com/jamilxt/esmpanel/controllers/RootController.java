@@ -1,9 +1,11 @@
 package com.jamilxt.esmpanel.controllers;
 
 import com.jamilxt.esmpanel.model.Authority;
+import com.jamilxt.esmpanel.model.BankAccount;
 import com.jamilxt.esmpanel.model.Setting;
 import com.jamilxt.esmpanel.model.User;
 import com.jamilxt.esmpanel.service.*;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,16 +18,19 @@ import java.util.Set;
 
 @Controller
 public class RootController extends BaseService {
+
     private final UserService userService;
     private final AuthorityService authorityService;
     private final PasswordEncoder passwordEncoder;
     private final SettingService settingService;
+    private final BankAccountService bankAccountService;
 
-    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService) {
+    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService, BankAccountService bankAccountService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
         this.settingService = settingService;
+        this.bankAccountService = bankAccountService;
     }
 
     @GetMapping("/")
@@ -33,7 +38,7 @@ public class RootController extends BaseService {
         model.addAttribute("pageTitle", "Dashboard");
         model.addAttribute("authUser", getLoggedInUser());
         model.addAttribute("totalEmployee", userService.totalEmployee());
-        model.addAttribute("balance", settingService.getBalance());
+        model.addAttribute("balance", bankAccountService.getBankBalanceByUsername(getLoggedInUser().getUsername()));
         return "index";
     }
 
@@ -58,6 +63,7 @@ public class RootController extends BaseService {
     }
 
     private void generateUsers() {
+        // Admin
         if (userService.findByUsername("admin").isEmpty()) {
             var admin = new User();
             admin.setUsername("admin");
@@ -70,35 +76,43 @@ public class RootController extends BaseService {
             Set<Authority> adminAuthorities = new HashSet<>();
             adminAuthorities.add(authorityService.findByRoleName("ROLE_ADMIN"));
             admin.setAuthorities(adminAuthorities);
-            userService.save(admin);
+            User savedAdmin = userService.save(admin);
+
+            BankAccount bankAccount = new BankAccount();
+            bankAccount.setAccountName("ESMPANEL LTD.");
+            bankAccount.setAccountNumber(RandomStringUtils.randomNumeric(10));
+            bankAccount.setAccountType("Savings");
+            bankAccount.setCurrentBalance(50000000);
+            bankAccount.setBankName("Janata Bank Ltd.");
+            bankAccount.setBranchName("Uttara");
+            bankAccount.setUser(savedAdmin);
+            bankAccountService.save(bankAccount);
+
         }
 
 
-        if (userService.findByUsername("employee").isEmpty()) {
-
+        // Employee 1
+        if (userService.findByUsername("employee1").isEmpty()) {
             var employee = new User();
-            employee.setUsername("employee");
+            employee.setUsername("employee1");
             employee.setPassword(passwordEncoder.encode("secret"));
-            employee.setFullName("Employee");
+            employee.setFullName("Employee1");
             employee.setGender("M");
-            employee.setEmail("employee@gmail.com");
+            employee.setEmail("employee1@gmail.com");
             employee.setEnabled(true);
             employee.setDob(LocalDate.now());
             Set<Authority> employeeAuthorities = new HashSet<>();
             employeeAuthorities.add(authorityService.findByRoleName("ROLE_EMPLOYEE"));
             employee.setAuthorities(employeeAuthorities);
-            userService.save(employee);
+            User savedUser = userService.save(employee);
+
+            BankAccount bankAccount1 = new BankAccount();
+            bankAccount1.setUser(savedUser);
+            bankAccountService.save(bankAccount1);
         }
     }
 
     private void setGlobalSetting() {
-        if (settingService.findByAttribute("balance").isEmpty()) {
-            var balanceSetting = new Setting();
-            balanceSetting.setAttribute("balance");
-            balanceSetting.setValue("5000000");
-            settingService.save(balanceSetting);
-        }
-
         if (settingService.findByAttribute("lowest_grade_basic_salary").isEmpty()) {
             var lowestGradeBasicSalarySetting = new Setting();
             lowestGradeBasicSalarySetting.setAttribute("lowest_grade_basic_salary");
@@ -106,4 +120,5 @@ public class RootController extends BaseService {
             settingService.save(lowestGradeBasicSalarySetting);
         }
     }
+
 }

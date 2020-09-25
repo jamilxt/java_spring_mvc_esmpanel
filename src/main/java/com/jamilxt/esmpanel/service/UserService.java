@@ -8,7 +8,6 @@ import com.jamilxt.esmpanel.model.User;
 import com.jamilxt.esmpanel.repositories.UserRepository;
 import com.jamilxt.esmpanel.request.UserRequest;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -87,8 +86,8 @@ public class UserService extends BaseService implements UserDetailsService {
         return userRepository.count() - 1;
     }
 
-    public void save(User user) {
-        userRepository.save(user);
+    public User save(User user) {
+        return userRepository.save(user);
     }
 
     public Optional<User> findByUsername(String username) {
