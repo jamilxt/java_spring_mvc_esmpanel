@@ -241,7 +241,7 @@
                   </span>
                             <img
                                     class="img-profile rounded-circle"
-                                    src="${pageContext.request.contextPath}/images/${authUser.propic}"
+                                    src="${ pageContext.request.contextPath }/images/${authUser.propic}"
                             />
                         </a>
                         <!-- Dropdown - User Information -->

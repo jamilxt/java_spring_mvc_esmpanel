@@ -11,7 +11,6 @@ import com.jamilxt.esmpanel.request.CommentRequest;
 import com.jamilxt.esmpanel.request.PostRequest;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -25,20 +24,17 @@ import java.util.Optional;
 
 @Service
 public class PostService {
-    @Autowired
-    private PostRepository postRepository;
-    @Autowired
-    private CommentRepository commentRepository;
+    private final PostRepository postRepository;
+    private final CommentRepository commentRepository;
+
+    public PostService(PostRepository postRepository, CommentRepository commentRepository) {
+        this.postRepository = postRepository;
+        this.commentRepository = commentRepository;
+    }
 
     public Page<Post> showAll(
             Optional<Integer> page,
             Optional<String> sortBy) {
-//        Pageable pageWithElements;
-//        if (sort.equals("NA")) {
-//            pageWithElements = PageRequest.of(pageIndex, rows, Sort.by("countryName").ascending());
-//        } else {
-//            pageWithElements = PageRequest.of(pageIndex, rows, Sort.by("countryName").descending());
-//        }
         return postRepository.findAll(
                 PageRequest.of(page.orElse(0), 10,
                         Sort.Direction.DESC, sortBy.orElse("postId")));

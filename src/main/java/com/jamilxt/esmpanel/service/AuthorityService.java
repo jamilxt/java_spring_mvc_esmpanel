@@ -2,16 +2,17 @@ package com.jamilxt.esmpanel.service;
 
 import com.jamilxt.esmpanel.model.Authority;
 import com.jamilxt.esmpanel.repositories.AuthorityRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class AuthorityService {
+    private final AuthorityRepository authorityRepository;
 
-    @Autowired
-    private AuthorityRepository authorityRepository;
+    public AuthorityService(AuthorityRepository authorityRepository) {
+        this.authorityRepository = authorityRepository;
+    }
 
     public Authority create(Authority authority) {
 

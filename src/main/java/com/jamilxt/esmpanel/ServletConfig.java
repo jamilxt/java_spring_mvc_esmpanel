@@ -41,10 +41,8 @@ public class ServletConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/scss/**").addResourceLocations("/WEB-INF/resources/scss/");
     }
 
-
     @Bean
     public CommonsMultipartResolver multipartResolver() {
-
         return new CommonsMultipartResolver();
     }
 

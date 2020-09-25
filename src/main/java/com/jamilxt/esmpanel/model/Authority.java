@@ -8,7 +8,6 @@ import java.io.Serializable;
 @Entity
 @Table(name = "tbl_authority")
 public class Authority implements GrantedAuthority, Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "role_uuid", nullable = false)
@@ -39,13 +38,5 @@ public class Authority implements GrantedAuthority, Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    @Override
-    public String toString() {
-        return "Authority{" +
-                "id=" + id +
-                ", authority='" + authority + '\'' +
-                '}';
     }
 }

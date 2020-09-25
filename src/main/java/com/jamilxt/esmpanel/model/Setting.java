@@ -5,7 +5,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "tbl_setting")
 public class Setting {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
@@ -49,5 +48,4 @@ public class Setting {
     public void setValue(String value) {
         this.value = value;
     }
-
 }

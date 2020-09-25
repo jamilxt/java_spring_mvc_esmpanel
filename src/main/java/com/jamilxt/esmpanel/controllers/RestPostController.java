@@ -18,7 +18,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 public class RestPostController extends BaseService {
-
     final PostService postService;
     final UserService userService;
 
@@ -55,5 +54,4 @@ public class RestPostController extends BaseService {
         User user = (User) userService.loadUserByUsername(username);
         return postService.getPostByUserRest(user, page, sortBy);
     }
-
 }

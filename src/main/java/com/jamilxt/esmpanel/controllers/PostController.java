@@ -27,9 +27,7 @@ import java.util.Optional;
 
 @Controller
 public class PostController {
-
     final ServletContext context;
-
     private final PostService postService;
     private final UserService userService;
 
@@ -40,7 +38,6 @@ public class PostController {
     }
 
     @GetMapping("/post/show-all")
-//    @ResponseBody
     public String post_showAll(Model model,
                                @RequestParam(value = "username") Optional<String> username,
                                @RequestParam(value = "page") Optional<Integer> page,
@@ -54,7 +51,6 @@ public class PostController {
             model.addAttribute("posts", postService.showAll(page, sortBy));
         }
         return "post/show-all";
-//        return photoService.showAll(caption, page, sortBy);
     }
 
     @GetMapping("/post/add")
@@ -90,7 +86,6 @@ public class PostController {
 
         var postDto = new PostDto();
         BeanUtils.copyProperties(post, postDto);
-//        postDto.setImages(postImages);
         postService.save(postDto, userEntity);
         return "redirect:/post/show-all";
     }
@@ -108,15 +103,11 @@ public class PostController {
     public String singlePost(Model model, @PathVariable(value = "postId") String postId) {
         model.addAttribute("postId", postId);
         Post post = postService.singlePost(Long.parseLong(postId)).get();
-//        List<CommentRequest> comments = postService.getCommentByPostFirst(post);
         model.addAttribute("singlePost", post);
         PrettyTime p = new PrettyTime();
         String postedAt = p.format(new Date(Timestamp.valueOf(post.getCreated_at()).getTime()));
         model.addAttribute("postedAt", postedAt);
-//        model.addAttribute("comments", comments);
         model.addAttribute("totalComments", postService.totalCommentsOfPost(post));
         return "post/view";
     }
-
-
 }

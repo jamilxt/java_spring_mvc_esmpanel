@@ -12,13 +12,11 @@ import java.util.List;
 @Entity
 @Table(name = "tbl_post")
 public class Post implements Serializable {
-
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private long postId;
 
-    //    @Column(name = "url")
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(name = "post_image")
     private List<String> images = new ArrayList<>();

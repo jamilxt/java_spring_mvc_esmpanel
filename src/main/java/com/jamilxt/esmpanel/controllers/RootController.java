@@ -16,7 +16,6 @@ import java.util.Set;
 
 @Controller
 public class RootController extends BaseService {
-
     private final UserService userService;
     private final AuthorityService authorityService;
     private final PasswordEncoder passwordEncoder;
@@ -107,5 +106,4 @@ public class RootController extends BaseService {
             settingService.save(lowestGradeBasicSalarySetting);
         }
     }
-
 }

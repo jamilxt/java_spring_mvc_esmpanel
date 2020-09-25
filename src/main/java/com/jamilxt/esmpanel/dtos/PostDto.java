@@ -6,7 +6,6 @@ public class PostDto {
     List<String> images;
     String caption;
 
-
     public List<String> getImages() {
         return images;
     }

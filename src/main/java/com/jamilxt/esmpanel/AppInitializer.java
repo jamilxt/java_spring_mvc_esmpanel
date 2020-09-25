@@ -9,7 +9,6 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletRegistration;
 
 public class AppInitializer implements WebApplicationInitializer {
-
     public void onStartup(ServletContext servletContext) {
 
         // Load Spring web application configuration
@@ -30,4 +29,5 @@ public class AppInitializer implements WebApplicationInitializer {
         registration.setLoadOnStartup(1);
         registration.addMapping("/");
     }
+
 }

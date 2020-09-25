@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
-
     private final UserDetailsService userDetailsService;
     private final CustomAuthSuccessHandler customAuthSuccessHandler;
 
@@ -33,14 +32,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // We are disabling CSRF so that our forms don't complain for a CSRF token.
-        // Beware that it can create a security vulnerability
         http.csrf().disable();
-
-        // We are permitting all static resources to be accessed publicly
-        http
-                .authorizeRequests()
-                .antMatchers("/images/**", "/css/**", "/js/**", "/accounts/login", "/accounts/emailsignup", "/post/**", "/api/**").permitAll()
+        http.authorizeRequests()
+                .antMatchers("/images/**", "/css/**", "/js/**", "/login", "/api/**").permitAll()
                 .and()
                 .authorizeRequests()
                 .anyRequest().authenticated()

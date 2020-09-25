@@ -10,8 +10,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
 @Repository
+@Transactional
 public interface PostRepository extends JpaRepository<Post, Long> {
 
     @Query(value = "select * from tbl_post p where p.caption like %:keyword%", nativeQuery = true)

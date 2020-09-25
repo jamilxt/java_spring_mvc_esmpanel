@@ -86,19 +86,4 @@ public class UserDto implements Serializable {
     public void setPropic(String propic) {
         this.propic = propic;
     }
-
-    @Override
-    public String toString() {
-        return "UserDto{" +
-                "username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", authorityNames=" + authorityNames +
-                ", fullName='" + fullName + '\'' +
-                ", email='" + email + '\'' +
-                ", gender='" + gender + '\'' +
-                ", dob=" + dob +
-                ", active=" + active +
-                ", propic='" + propic + '\'' +
-                '}';
-    }
 }

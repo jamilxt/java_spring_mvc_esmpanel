@@ -31,11 +31,6 @@ public class Comment {
     @UpdateTimestamp
     private LocalDateTime updated_at;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user")
-//    private User user;
-
-
     public Long getCommentId() {
         return commentId;
     }

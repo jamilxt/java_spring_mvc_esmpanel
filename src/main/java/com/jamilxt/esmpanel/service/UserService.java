@@ -20,7 +20,6 @@ import java.util.*;
 @Service
 public class UserService extends BaseService implements UserDetailsService {
 
-    @Autowired
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
@@ -35,15 +34,7 @@ public class UserService extends BaseService implements UserDetailsService {
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         com.jamilxt.esmpanel.model.User userEntity = userRepository.findByUsername(s)
                 .orElseThrow(() -> new ResourceNotFoundException("No user found with this username"));
-
-//        Set<GrantedAuthority> authorities = new java.util.ArrayList<>(Collections.emptyList()); // jamilxt
-//        var authorities = userEntity.getAuthorities();
-        // mainul35
-        // after adding multiple roles - these are not working properly
-        // I think this is important to grant roles
-//        authorities.add((GrantedAuthority) () -> userFromDb.getRole().name()); // mainul35
-
-        return userEntity; // This User class is from  Spring Security. Since we did not implement UserDetails interface from SpringSecurity, therefore we are creating an instance of Spring Security provided User class.
+        return userEntity;
     }
 
     public List<com.jamilxt.esmpanel.model.User> showAll() {
