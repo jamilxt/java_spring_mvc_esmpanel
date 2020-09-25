@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -69,10 +68,8 @@ public class RootController extends BaseService {
             admin.setUsername("admin");
             admin.setPassword(passwordEncoder.encode("secret"));
             admin.setFullName("Admin");
-            admin.setGender("M");
             admin.setEmail("admin@gmail.com");
             admin.setEnabled(true);
-            admin.setDob(LocalDate.now());
             Set<Authority> adminAuthorities = new HashSet<>();
             adminAuthorities.add(authorityService.findByRoleName("ROLE_ADMIN"));
             admin.setAuthorities(adminAuthorities);
@@ -97,10 +94,8 @@ public class RootController extends BaseService {
             employee.setUsername("employee1");
             employee.setPassword(passwordEncoder.encode("secret"));
             employee.setFullName("Employee1");
-            employee.setGender("M");
             employee.setEmail("employee1@gmail.com");
             employee.setEnabled(true);
-            employee.setDob(LocalDate.now());
             Set<Authority> employeeAuthorities = new HashSet<>();
             employeeAuthorities.add(authorityService.findByRoleName("ROLE_EMPLOYEE"));
             employee.setAuthorities(employeeAuthorities);

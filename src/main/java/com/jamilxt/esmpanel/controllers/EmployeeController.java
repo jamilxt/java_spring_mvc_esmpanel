@@ -1,27 +1,11 @@
 package com.jamilxt.esmpanel.controllers;
 
-import com.jamilxt.esmpanel.dtos.UserDto;
-import com.jamilxt.esmpanel.request.User;
-import com.jamilxt.esmpanel.service.AuthorityService;
-import com.jamilxt.esmpanel.service.BaseService;
-import com.jamilxt.esmpanel.service.SettingService;
-import com.jamilxt.esmpanel.service.UserService;
-import com.jamilxt.esmpanel.util.Constants;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import com.jamilxt.esmpanel.service.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.ServletContext;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.HashMap;
 
 @Controller
 public class EmployeeController extends BaseService {
@@ -30,29 +14,31 @@ public class EmployeeController extends BaseService {
     final AuthorityService authorityService;
     final ServletContext context;
     final SettingService settingService;
+    final BankAccountService bankAccountService;
 
-    public EmployeeController(UserService userService, AuthorityService authorityService, ServletContext context, SettingService settingService) {
+    public EmployeeController(UserService userService, AuthorityService authorityService, ServletContext context, SettingService settingService, BankAccountService bankAccountService) {
         this.userService = userService;
         this.authorityService = authorityService;
         this.context = context;
         this.settingService = settingService;
+        this.bankAccountService = bankAccountService;
     }
 
     @GetMapping("/employee")
     public String showAllUser(Model model) {
         model.addAttribute("pageTitle", "Employee List");
         model.addAttribute("authUser", getLoggedInUser());
-        model.addAttribute("balance", settingService.getBalance());
+        model.addAttribute("balance", bankAccountService.getBankBalanceByUsername(getLoggedInUser().getUsername()));
         model.addAttribute("users", userService.showAll());
         model.addAttribute("message", "Showing all Employee...");
         return "/employee/show-all";
     }
 
-    @GetMapping("/employee/add")
+   /* @GetMapping("/employee/add")
     public String getAddUser(Model model) {
         model.addAttribute("pageTitle", "Add User");
         model.addAttribute("authUser", getLoggedInUser());
-        model.addAttribute("balance", settingService.getBalance());
+        model.addAttribute("balance", bankAccountService.getBankBalanceByUsername(getLoggedInUser().getUsername()));
         model.addAttribute("user", new User());
         model.addAttribute("message", "Add a new User");
         var genders = new HashMap<String, String>();
@@ -108,6 +94,6 @@ public class EmployeeController extends BaseService {
     ResponseEntity<?> searchUserByUsername(@RequestParam(name = "term") String query) {
         var data = userService.findUser(query);
         return new ResponseEntity<>(data, HttpStatus.OK);
-    }
+    }*/
 
 }

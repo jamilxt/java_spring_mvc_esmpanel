@@ -18,10 +18,6 @@ public class SettingService {
         settingRepository.save(setting);
     }
 
-    public String getBalance() {
-        return settingRepository.getSettingByAttribute("balance").getValue();
-    }
-
     public Optional<Setting> findByAttribute(String attribute) {
         return settingRepository.findByAttribute(attribute);
     }

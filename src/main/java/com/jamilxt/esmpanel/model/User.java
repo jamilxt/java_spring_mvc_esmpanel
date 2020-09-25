@@ -4,7 +4,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -12,6 +11,7 @@ import java.util.Set;
 @Entity
 @Table(name = "tbl_user")
 public class User implements UserDetails, Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "user_uuid")
@@ -22,28 +22,25 @@ public class User implements UserDetails, Serializable {
     private String password;
     @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER, targetEntity = Authority.class)
     @JoinTable(name = "user_authority",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "user_uuid")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "role_uuid")}
+            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "user_uuid") },
+            inverseJoinColumns = { @JoinColumn(name = "role_id", referencedColumnName = "role_uuid") }
     )
     private Set<Authority> authorities;
-    @Column(name = "fullname")
+    @Column(name = "full_name")
     private String fullName;
     @Column(name = "email")
     private String email;
-    @Column(name = "gender")
-    private String gender;
-    @Column(name = "dob")
-    private LocalDate dob;
+    @Column(name = "pro_pic")
+    private String propic = "default.png";
+    @Column(name = "grade")
+    private String grade;
+    @Column(name = "address")
+    private String address;
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column(name = "is_active")
     private Boolean active = true;
-    @Column(name = "propic")
-    private String propic = "default.png";
-    @Column(name = "website")
-    private String website;
-    @Column(name = "bio")
-    private String bio;
-    @Column(name = "phoneNumber")
-    private String phoneNumber;
 
     @Column(nullable = false, name = "enabled")
     private boolean enabled = true;
@@ -53,9 +50,6 @@ public class User implements UserDetails, Serializable {
     private boolean accountNonLocked = true;
     @Column(nullable = false, name = "credentialsNonExpired")
     private boolean credentialsNonExpired = true;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.MERGE) // this needs to be LAZY - mainul35
-    private List<Post> posts;
 
     @OneToOne
     private BankAccount bankAccount;
@@ -135,30 +129,6 @@ public class User implements UserDetails, Serializable {
         this.email = email;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
-
-    public Boolean getActive() {
-        return active;
-    }
-
-    public void setActive(Boolean active) {
-        this.active = active;
-    }
-
     public String getPropic() {
         return propic;
     }
@@ -167,20 +137,20 @@ public class User implements UserDetails, Serializable {
         this.propic = propic;
     }
 
-    public String getWebsite() {
-        return website;
+    public String getGrade() {
+        return grade;
     }
 
-    public void setWebsite(String website) {
-        this.website = website;
+    public void setGrade(String grade) {
+        this.grade = grade;
     }
 
-    public String getBio() {
-        return bio;
+    public String getAddress() {
+        return address;
     }
 
-    public void setBio(String bio) {
-        this.bio = bio;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhoneNumber() {
@@ -189,6 +159,14 @@ public class User implements UserDetails, Serializable {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public void setEnabled(boolean enabled) {
@@ -205,14 +183,6 @@ public class User implements UserDetails, Serializable {
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public List<Post> getPosts() {
-        return posts;
-    }
-
-    public void setPosts(List<Post> posts) {
-        this.posts = posts;
     }
 
     public BankAccount getBankAccount() {
