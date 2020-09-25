@@ -99,7 +99,7 @@
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="${ pageContext.request.contextPath }/user/show-all">
+            <a class="nav-link" href="${ pageContext.request.contextPath }/employee">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>Employee List</span></a
             >

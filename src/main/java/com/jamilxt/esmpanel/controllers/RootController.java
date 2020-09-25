@@ -20,14 +20,12 @@ public class RootController extends BaseService {
     private final UserService userService;
     private final AuthorityService authorityService;
     private final PasswordEncoder passwordEncoder;
-    private final PostService postService;
     private final SettingService settingService;
 
-    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, PostService postService, SettingService settingService) {
+    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
-        this.postService = postService;
         this.settingService = settingService;
     }
 

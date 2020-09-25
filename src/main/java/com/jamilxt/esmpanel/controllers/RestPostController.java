@@ -8,7 +8,6 @@ import com.jamilxt.esmpanel.request.PostRequest;
 import com.jamilxt.esmpanel.service.BaseService;
 import com.jamilxt.esmpanel.service.PostService;
 import com.jamilxt.esmpanel.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +18,14 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/v1")
 public class RestPostController extends BaseService {
-    @Autowired
-    PostService postService;
-    @Autowired
-    UserService userService;
+
+    final PostService postService;
+    final UserService userService;
+
+    public RestPostController(PostService postService, UserService userService) {
+        this.postService = postService;
+        this.userService = userService;
+    }
 
     @PostMapping("/post/comments/add")
     public ResponseEntity<?> addNewComment(@RequestParam(name = "postId") long postId, @RequestParam(name = "commentText") String commentText) {
@@ -52,4 +55,5 @@ public class RestPostController extends BaseService {
         User user = (User) userService.loadUserByUsername(username);
         return postService.getPostByUserRest(user, page, sortBy);
     }
+
 }

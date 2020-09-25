@@ -8,7 +8,6 @@ import com.jamilxt.esmpanel.service.UserService;
 import com.jamilxt.esmpanel.util.Constants;
 import org.ocpsoft.prettytime.PrettyTime;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,13 +28,16 @@ import java.util.Optional;
 @Controller
 public class PostController {
 
-    @Autowired
-    ServletContext context;
+    final ServletContext context;
 
-    @Autowired
-    private PostService postService;
-    @Autowired
-    private UserService userService;
+    private final PostService postService;
+    private final UserService userService;
+
+    public PostController(ServletContext context, PostService postService, UserService userService) {
+        this.context = context;
+        this.postService = postService;
+        this.userService = userService;
+    }
 
     @GetMapping("/post/show-all")
 //    @ResponseBody
