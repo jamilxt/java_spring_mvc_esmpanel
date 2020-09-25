@@ -54,7 +54,7 @@
                                 Paid (Total)
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {totalAmountOfSalarySheet}
+                                ${totalPaidAmount}
                             </div>
                         </div>
                         <div class="col-auto">

@@ -23,13 +23,15 @@ public class RootController extends BaseService {
     private final PasswordEncoder passwordEncoder;
     private final SettingService settingService;
     private final BankAccountService bankAccountService;
+    private final SalarySheetService salarySheetService;
 
-    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService, BankAccountService bankAccountService) {
+    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService, BankAccountService bankAccountService, SalarySheetService salarySheetService) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
         this.settingService = settingService;
         this.bankAccountService = bankAccountService;
+        this.salarySheetService = salarySheetService;
     }
 
     @GetMapping("/")
@@ -38,6 +40,7 @@ public class RootController extends BaseService {
         model.addAttribute("authUser", getLoggedInUser());
         model.addAttribute("totalEmployee", userService.totalEmployee());
         model.addAttribute("balance", bankAccountService.getBankBalanceByUsername(getLoggedInUser().getUsername()));
+        model.addAttribute("totalPaidAmount", salarySheetService.getTotalPaidAmount());
         return "index";
     }
 
