@@ -41,21 +41,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .authorizeRequests()
                 .antMatchers("/images/**", "/css/**", "/js/**", "/accounts/login", "/accounts/emailsignup", "/post/**", "/api/**").permitAll()
-                // We are restricting endpoints for individual roles.
-                // Only users with allowed roles will be able to access individual endpoints.
                 .and()
                 .authorizeRequests()
-                // mainul35
-                // after adding multiple roles - these are not working properly
-//                .antMatchers("/course/add").hasRole("ADMIN")
-//                .antMatchers("/course/show-all").hasAnyRole("ADMIN", "USER")
-//                .antMatchers("/course/edit").hasAnyRole("USER")
-//                .antMatchers("/user/**").hasAnyRole("ADMIN")
-                // Following line denotes that all requests must be authenticated.
-                // Hence, once a request comes to our application, we will check if the user is authenticated or not.
                 .anyRequest().authenticated()
-
-                // Here we are configuring our login form
                 .and()
                 .formLogin()
                 .loginPage("/login") // Login page will be accessed through this endpoint. We will create a controller method for this.

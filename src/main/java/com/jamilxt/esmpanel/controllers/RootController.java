@@ -1,80 +1,53 @@
 package com.jamilxt.esmpanel.controllers;
 
 import com.jamilxt.esmpanel.model.Authority;
+import com.jamilxt.esmpanel.model.Setting;
 import com.jamilxt.esmpanel.model.User;
-import com.jamilxt.esmpanel.repositories.UserRepository;
-import com.jamilxt.esmpanel.service.AuthorityService;
-import com.jamilxt.esmpanel.service.PostService;
-import com.jamilxt.esmpanel.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.jamilxt.esmpanel.service.*;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpSession;
-import java.io.BufferedOutputStream;
-import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-// For showing index-old.jsp instead of showing the "not found page" error
 @Controller
-public class RootController {
+public class RootController extends BaseService {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final AuthorityService authorityService;
     private final PasswordEncoder passwordEncoder;
     private final PostService postService;
+    private final SettingService settingService;
 
-    @Autowired
-    UserService userService;
-
-    public RootController(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService, PostService postService) {
-        this.userRepository = userRepository;
+    public RootController(UserService userService, PasswordEncoder passwordEncoder, AuthorityService authorityService, PostService postService, SettingService settingService) {
+        this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
         this.postService = postService;
+        this.settingService = settingService;
     }
 
     @GetMapping("/")
-    public String root(Model model, HttpSession httpSession) {
-        User userEntity = (User) httpSession.getAttribute("authUser");
-        model.addAttribute("authUser", userEntity);
+    public String root(Model model) {
+        model.addAttribute("pageTitle", "Dashboard");
+        model.addAttribute("authUser", getLoggedInUser());
+        model.addAttribute("totalEmployee", userService.totalEmployee());
+        model.addAttribute("balance", settingService.getBalance());
         return "index";
-    }
-
-    @GetMapping("/explore")
-    public String explorePage(Model model) {
-        model.addAttribute("pageTitle", "Explore");
-        return "/explore/index";
-    }
-
-    @GetMapping("/explore/tags/{tag}")
-    public String explorePageTags(Model model, @PathVariable(value = "tag") String tag) {
-        model.addAttribute("pageTitle", tag + " hashtag on instagram_clone • Photos and Videos");
-        return "/explore/tags";
     }
 
     @GetMapping("/login")
     public String login(Model model, @RequestParam(name = "error", required = false) String error) {
         generateRoles();
         generateUsers();
+        setGlobalSetting();
         model.addAttribute("pageTitle", "Login");
         model.addAttribute("error", error);
         return "/accounts/login";
-    }
-
-    @GetMapping("/accounts/emailsignup")
-    public String emailsignup(Model model, @RequestParam(name = "error", required = false) String error) {
-        model.addAttribute("pageTitle", "Sign up");
-        model.addAttribute("error", error);
-        return "/accounts/emailsignup";
     }
 
     @GetMapping("/403")
@@ -88,76 +61,53 @@ public class RootController {
     }
 
     private void generateUsers() {
-
-        if (userRepository.findByUsername("admin").isEmpty()) {
-            var user = new User();
-            user.setUsername("admin");
-            user.setPassword(passwordEncoder.encode("secret"));
-            user.setFullName("Admin");
-            user.setGender("M");
-            user.setEmail("admin@gmail.com");
-            user.setEnabled(true);
-            user.setDob(LocalDate.now());
-            Set<Authority> authorities = new HashSet<>();
-            authorities.add(authorityService.findByRoleName("ROLE_ADMIN"));
-            user.setAuthorities(authorities);
-            userRepository.save(user);
+        if (userService.findByUsername("admin").isEmpty()) {
+            var admin = new User();
+            admin.setUsername("admin");
+            admin.setPassword(passwordEncoder.encode("secret"));
+            admin.setFullName("Admin");
+            admin.setGender("M");
+            admin.setEmail("admin@gmail.com");
+            admin.setEnabled(true);
+            admin.setDob(LocalDate.now());
+            Set<Authority> adminAuthorities = new HashSet<>();
+            adminAuthorities.add(authorityService.findByRoleName("ROLE_ADMIN"));
+            admin.setAuthorities(adminAuthorities);
+            userService.save(admin);
         }
 
-        if (userRepository.findByUsername("user").isEmpty()) {
-            var user = new User();
-            user.setUsername("user");
-            user.setPassword(passwordEncoder.encode("secret"));
-            user.setFullName("User");
-            user.setGender("M");
-            user.setEmail("user@gmail.com");
-            user.setEnabled(true);
-            user.setDob(LocalDate.now());
-            Set<Authority> authorities = new HashSet<>();
-            authorities.add(authorityService.findByRoleName("ROLE_EMPLOYEE"));
-            user.setAuthorities(authorities);
-            userRepository.save(user);
+
+        if (userService.findByUsername("employee").isEmpty()) {
+
+            var employee = new User();
+            employee.setUsername("employee");
+            employee.setPassword(passwordEncoder.encode("secret"));
+            employee.setFullName("Employee");
+            employee.setGender("M");
+            employee.setEmail("employee@gmail.com");
+            employee.setEnabled(true);
+            employee.setDob(LocalDate.now());
+            Set<Authority> employeeAuthorities = new HashSet<>();
+            employeeAuthorities.add(authorityService.findByRoleName("ROLE_EMPLOYEE"));
+            employee.setAuthorities(employeeAuthorities);
+            userService.save(employee);
         }
     }
 
-    @GetMapping("/{username}")
-    public String userProfile(Model model, @PathVariable(value = "username") String username) {
-        model.addAttribute("pageTitle", "@" + username + " - instagram_clone photos and videos");
-        User user = (User) userService.loadUserByUsername(username);
-        model.addAttribute("user", user);
-        model.addAttribute("totalPosts", postService.totalPostsOfUser(user));
-        return "profile";
-    }
-
-
-    @GetMapping("/accounts/edit")
-    public String editProfile(Model model) {
-        model.addAttribute("pageTitle", "Edit Profile");
-        return "accounts/edit";
-    }
-
-    @PostMapping("/edit_profile")
-    public String editProfile_POST(Model model, @RequestParam(name = "image") MultipartFile file, HttpSession session) {
-        String path = session.getServletContext().getRealPath("/");
-        String filename = file.getOriginalFilename();
-
-        System.out.println(path + " " + filename);
-        try {
-            byte[] barr = file.getBytes();
-
-            BufferedOutputStream bout = new BufferedOutputStream(
-                    new FileOutputStream(path + "/" + filename));
-            bout.write(barr);
-            bout.flush();
-            bout.close();
-
-        } catch (Exception ex) {
-            System.out.println(ex);
+    private void setGlobalSetting() {
+        if (settingService.findByAttribute("balance").isEmpty()) {
+            var balanceSetting = new Setting();
+            balanceSetting.setAttribute("balance");
+            balanceSetting.setValue("5000000");
+            settingService.save(balanceSetting);
         }
 
-        model.addAttribute("filename", path + "/" + filename);
-        return "profile/edit";
+        if (settingService.findByAttribute("lowest_grade_basic_salary").isEmpty()) {
+            var lowestGradeBasicSalarySetting = new Setting();
+            lowestGradeBasicSalarySetting.setAttribute("lowest_grade_basic_salary");
+            lowestGradeBasicSalarySetting.setValue("10000");
+            settingService.save(lowestGradeBasicSalarySetting);
+        }
     }
-
 
 }

@@ -4,6 +4,7 @@ import com.jamilxt.esmpanel.dtos.UserDto;
 import com.jamilxt.esmpanel.exceptions.ResourceAlreadyExistsException;
 import com.jamilxt.esmpanel.exceptions.ResourceNotFoundException;
 import com.jamilxt.esmpanel.model.Authority;
+import com.jamilxt.esmpanel.model.User;
 import com.jamilxt.esmpanel.repositories.UserRepository;
 import com.jamilxt.esmpanel.request.UserRequest;
 import org.springframework.beans.BeanUtils;
@@ -14,10 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class UserService extends BaseService implements UserDetailsService {
@@ -92,6 +90,18 @@ public class UserService extends BaseService implements UserDetailsService {
         }
 
         return userRequests;
+    }
+
+    public long totalEmployee() {
+        return userRepository.count() - 1;
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    public Optional<User> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }
