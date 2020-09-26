@@ -106,7 +106,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="${ pageContext.request.contextPath }/post/show-all">
+            <a class="nav-link" href="${ pageContext.request.contextPath }/salary-sheet">
                 <i class="fas fa-fw fa-wrench"></i>
                 <span>Salary Sheet</span></a
             >

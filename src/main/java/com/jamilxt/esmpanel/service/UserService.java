@@ -136,4 +136,8 @@ public class UserService extends BaseService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id).get();
+    }
+
 }

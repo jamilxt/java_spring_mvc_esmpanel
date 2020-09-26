@@ -23,8 +23,8 @@ public class SalarySheetController extends BaseService {
         model.addAttribute("pageTitle", "Salary Sheet");
         model.addAttribute("authUser", getLoggedInUser());
         model.addAttribute("balance", bankAccountService.getBankBalanceByUsername(getLoggedInUser().getUsername()));
-        model.addAttribute("salary_sheet_list", salarySheetService.findAll());
-        return "salary-sheet";
+        model.addAttribute("salarysheets", salarySheetService.findAll());
+        return "salarysheet/show-all";
     }
 
 }
