@@ -16,12 +16,10 @@ import java.util.List;
 public class SalarySheetService {
 
     private final SalarySheetRepository salarySheetRepository;
-    private final UserService userService;
 
     @Autowired
-    public SalarySheetService(SalarySheetRepository salarySheetRepository, UserService userService) {
+    public SalarySheetService(SalarySheetRepository salarySheetRepository) {
         this.salarySheetRepository = salarySheetRepository;
-        this.userService = userService;
     }
 
     public List<SalarySheetResponse> findByUsername(String username) {
@@ -58,6 +56,10 @@ public class SalarySheetService {
             return 0;
         }
         return Long.parseLong(salarySheetRepository.sumOfPaidAmount().get().toString());
+    }
+
+    public void insertEntry(SalarySheet salarySheet) {
+        salarySheetRepository.save(salarySheet);
     }
 
 

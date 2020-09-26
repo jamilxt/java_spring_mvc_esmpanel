@@ -24,6 +24,9 @@
         </div>
         <div class="card-body">
 
+            <div class="alert alert-success mt-4" id="alert" role="alert" style="display:none;">
+                Payment successful!
+            </div>
 
             <div class="table-responsive">
 

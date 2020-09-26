@@ -10,6 +10,7 @@ import com.jamilxt.esmpanel.repositories.UserRepository;
 import com.jamilxt.esmpanel.request.UserRequest;
 import com.jamilxt.esmpanel.response.UserResponse;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -27,6 +28,7 @@ public class UserService extends BaseService implements UserDetailsService {
     private final SettingService settingService;
     private final BankAccountService bankAccountService;
 
+    @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService, BankAccountService bankAccountService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
