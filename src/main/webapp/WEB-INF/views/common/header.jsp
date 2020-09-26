@@ -116,20 +116,13 @@
         <hr class="sidebar-divider"/>
 
         <!-- Heading -->
-        <div class="sidebar-heading">Settings</div>
+        <div class="sidebar-heading">Configure</div>
 
         <!-- Nav Item - Tables -->
         <li class="nav-item">
             <a class="nav-link" href="${ pageContext.request.contextPath }/settings">
                 <i class="fas fa-fw fa-wrench"></i>
-                <span>Global</span></a
-            >
-        </li>
-
-        <li class="nav-item">
-            <a class="nav-link" href="${ pageContext.request.contextPath }/settings/bank-details">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Bank Details</span></a
+                <span>Settings</span></a
             >
         </li>
 

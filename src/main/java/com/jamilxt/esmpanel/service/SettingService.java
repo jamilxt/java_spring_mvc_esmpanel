@@ -2,6 +2,7 @@ package com.jamilxt.esmpanel.service;
 
 import com.jamilxt.esmpanel.model.Setting;
 import com.jamilxt.esmpanel.repositories.SettingRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,6 +26,12 @@ public class SettingService {
 
     public Long getLowestGradeBasicSalaryValue() {
         return Long.parseLong(settingRepository.getSettingByAttribute("lowest_grade_basic_salary").getValue());
+    }
+
+    public void updateBasicSalaryOfLowestGrade(Setting setting) {
+        var newSetting = settingRepository.findByAttribute(setting.getAttribute()).get();
+        BeanUtils.copyProperties(setting, newSetting);
+        settingRepository.save(newSetting);
     }
 
 }
