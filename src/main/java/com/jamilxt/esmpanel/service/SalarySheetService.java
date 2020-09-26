@@ -24,8 +24,19 @@ public class SalarySheetService {
         this.userService = userService;
     }
 
-    public List<SalarySheet> findByUsername(String username) {
-        return salarySheetRepository.findAllByUserUsername(username);
+    public List<SalarySheetResponse> findByUsername(String username) {
+        List<SalarySheetResponse> salarySheetList = new ArrayList<>();
+
+        for (SalarySheet salarySheet :
+                salarySheetRepository.findAllByUserUsername(username)) {
+            SalarySheetResponse salarySheetResponse = new SalarySheetResponse();
+            salarySheetResponse.setId(salarySheet.getId());
+            salarySheetResponse.setPayDate(new PrettyTime().format(new Date(Timestamp.valueOf(salarySheet.getPay_date()).getTime())));
+            salarySheetResponse.setUsername(salarySheet.getUser().getUsername());
+            salarySheetResponse.setAmount(salarySheet.getAmount());
+            salarySheetList.add(salarySheetResponse);
+        }
+        return salarySheetList;
     }
 
     public List<SalarySheetResponse> findAll() {
@@ -46,7 +57,7 @@ public class SalarySheetService {
         if (salarySheetRepository.sumOfPaidAmount().isEmpty()) {
             return 0;
         }
-        return Long.parseLong(salarySheetRepository.sumOfPaidAmount().toString());
+        return Long.parseLong(salarySheetRepository.sumOfPaidAmount().get().toString());
     }
 
 

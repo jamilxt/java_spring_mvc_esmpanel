@@ -97,18 +97,20 @@
         <!-- Heading -->
         <div class="sidebar-heading">Employee</div>
 
-        <!-- Nav Item - Tables -->
-        <li class="nav-item">
-            <a class="nav-link" href="${ pageContext.request.contextPath }/employee">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Employee List</span></a
-            >
-        </li>
+        <sec:authorize access="hasRole('ADMIN')">
+            <!-- Nav Item - Tables -->
+            <li class="nav-item">
+                <a class="nav-link" href="${ pageContext.request.contextPath }/employee">
+                    <i class="fas fa-fw fa-wrench"></i>
+                    <span>Employee List</span></a
+                >
+            </li>
+        </sec:authorize>
 
         <li class="nav-item">
             <a class="nav-link" href="${ pageContext.request.contextPath }/salary-sheet">
                 <i class="fas fa-fw fa-wrench"></i>
-                <span>Salary Sheet</span></a
+                <span><sec:authorize access="hasRole('EMPLOYEE')">My </sec:authorize>Salary Sheet</span></a
             >
         </li>
 
@@ -123,8 +125,11 @@
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Customize:</h6>
                     <a class="collapse-item" href="${ pageContext.request.contextPath }/settings/bank">Bank Details</a>
-                    <a class="collapse-item" href="${ pageContext.request.contextPath }/settings/salary">Salary
-                        Config</a>
+
+                    <sec:authorize access="hasRole('ADMIN')">
+                        <a class="collapse-item" href="${ pageContext.request.contextPath }/settings/salary">Salary
+                            Config</a>
+                    </sec:authorize>
                 </div>
             </div>
         </li>

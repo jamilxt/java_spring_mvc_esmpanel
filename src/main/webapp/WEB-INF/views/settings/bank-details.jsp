@@ -2,6 +2,7 @@
          pageEncoding="ISO-8859-1" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
 <!-- HEADER -->
 <jsp:include page="../common/header.jsp"/>
@@ -88,10 +89,11 @@
                                             class="form-control form-control-user"
                                             value="${bankAccount.currentBalance}" required="required"
                                             readonly="true"/>
-
-                                <div class="input-group-append">
-                                    <button class="btn btn-success" type="button">Recharge</button>
-                                </div>
+                                <sec:authorize access="hasRole('ADMIN')">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-success" type="button">Recharge</button>
+                                    </div>
+                                </sec:authorize>
                             </div>
 
                             <button type="submit"
