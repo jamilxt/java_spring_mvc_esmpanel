@@ -4,6 +4,7 @@ import com.jamilxt.esmpanel.dtos.UserDto;
 import com.jamilxt.esmpanel.exceptions.ResourceAlreadyExistsException;
 import com.jamilxt.esmpanel.exceptions.ResourceNotFoundException;
 import com.jamilxt.esmpanel.model.Authority;
+import com.jamilxt.esmpanel.model.BankAccount;
 import com.jamilxt.esmpanel.model.User;
 import com.jamilxt.esmpanel.repositories.UserRepository;
 import com.jamilxt.esmpanel.request.UserRequest;
@@ -24,12 +25,14 @@ public class UserService extends BaseService implements UserDetailsService {
     private final PasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
     private final SettingService settingService;
+    private final BankAccountService bankAccountService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService, BankAccountService bankAccountService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
         this.settingService = settingService;
+        this.bankAccountService = bankAccountService;
     }
 
     @Override
@@ -96,7 +99,12 @@ public class UserService extends BaseService implements UserDetailsService {
             }
             userEntity.setAuthorities(authorities);
 
-            userRepository.save(userEntity);
+            User savedUser = userRepository.save(userEntity);
+
+            BankAccount bankAccount1 = new BankAccount();
+            bankAccount1.setCurrentBalance(0L);
+            bankAccount1.setUser(savedUser);
+            bankAccountService.save(bankAccount1);
 
         } else {
             throw new ResourceAlreadyExistsException("Username is unavailable");

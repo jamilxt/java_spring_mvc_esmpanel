@@ -46,9 +46,9 @@ public class RootController extends BaseService {
 
     @GetMapping("/login")
     public String login(Model model, @RequestParam(name = "error", required = false) String error) {
+        setGlobalSetting();
         generateRoles();
         generateUsers();
-        setGlobalSetting();
         model.addAttribute("pageTitle", "Login");
         model.addAttribute("error", error);
         return "/accounts/login";
@@ -283,7 +283,7 @@ public class RootController extends BaseService {
     }
 
     private void setGlobalSetting() {
-        if (settingService.findByAttribute("lowest_grade_basic_salary") == null) {
+        if (settingService.findByAttribute("lowest_grade_basic_salary").isEmpty()) {
             var lowestGradeBasicSalarySetting = new Setting();
             lowestGradeBasicSalarySetting.setAttribute("lowest_grade_basic_salary");
             lowestGradeBasicSalarySetting.setValue("10000");

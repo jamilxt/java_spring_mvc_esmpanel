@@ -21,7 +21,7 @@ public class BankAccount {
     private String accountNumber;
 
     @Column(name = "current_balance")
-    private Long currentBalance;
+    private Long currentBalance = 0L;
 
     @Column(name = "bank_name")
     private String bankName;
