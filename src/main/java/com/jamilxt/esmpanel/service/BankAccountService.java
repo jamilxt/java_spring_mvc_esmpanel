@@ -2,6 +2,7 @@ package com.jamilxt.esmpanel.service;
 
 import com.jamilxt.esmpanel.model.BankAccount;
 import com.jamilxt.esmpanel.repositories.BankAccountRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,16 @@ public class BankAccountService {
 
     public long getBankBalanceByUsername(String username) {
         return bankAccountRepository.findByUserUsername(username).getCurrentBalance();
+    }
+
+    public BankAccount findByUsername(String username) {
+        return bankAccountRepository.findByUserUsername(username);
+    }
+
+    public void updateBankDetails(BankAccount bankAccount) {
+        var newBankDetails = bankAccountRepository.findByUserUsername(bankAccount.getUser().getUsername());
+        BeanUtils.copyProperties(bankAccount, newBankDetails);
+        bankAccountRepository.save(newBankDetails);
     }
 
 }

@@ -83,7 +83,7 @@ public class RootController extends BaseService {
             bankAccount.setAccountName("ESMPANEL LTD.");
             bankAccount.setAccountNumber(RandomStringUtils.randomNumeric(10));
             bankAccount.setAccountType("Savings");
-            bankAccount.setCurrentBalance(50000000);
+            bankAccount.setCurrentBalance(50000000L);
             bankAccount.setBankName("Janata Bank Ltd.");
             bankAccount.setBranchName("Uttara");
             bankAccount.setUser(savedAdmin);

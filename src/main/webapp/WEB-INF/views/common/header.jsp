@@ -112,18 +112,21 @@
             >
         </li>
 
-        <!-- Divider -->
-        <hr class="sidebar-divider"/>
-
-        <!-- Heading -->
-        <div class="sidebar-heading">Configure</div>
-
-        <!-- Nav Item - Tables -->
         <li class="nav-item">
-            <a class="nav-link" href="${ pageContext.request.contextPath }/settings">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Settings</span></a
-            >
+            <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
+               aria-controls="collapseTwo">
+                <i class="fas fa-fw fa-cog"></i>
+                <span>Settings</span>
+            </a>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar"
+                 style="">
+                <div class="bg-white py-2 collapse-inner rounded">
+                    <h6 class="collapse-header">Customize:</h6>
+                    <a class="collapse-item" href="${ pageContext.request.contextPath }/settings/bank">Bank Details</a>
+                    <a class="collapse-item" href="${ pageContext.request.contextPath }/settings/salary">Salary
+                        Config</a>
+                </div>
+            </div>
         </li>
 
         <!-- Divider -->

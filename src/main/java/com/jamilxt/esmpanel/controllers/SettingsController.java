@@ -21,7 +21,7 @@ public class SettingsController extends BaseService {
         this.settingService = settingService;
     }
 
-    @GetMapping("/settings")
+    @GetMapping("/settings/salary")
     public String getSettings(Model model, @ModelAttribute(name = "setting") Setting setting) {
         model.addAttribute("pageTitle", "Setting");
         model.addAttribute("authUser", getLoggedInUser());
@@ -29,14 +29,15 @@ public class SettingsController extends BaseService {
         model.addAttribute("fieldId", settingService.findByAttribute("lowest_grade_basic_salary").get().getId());
         model.addAttribute("attributeName", "lowest_grade_basic_salary");
         model.addAttribute("attributeValue", settingService.getLowestGradeBasicSalaryValue().toString());
-        return "settings/index";
+        return "settings/salary-config";
     }
 
-    @PostMapping("/settings")
+    @PostMapping("/settings/salary")
     public String setLowestBasicSalary(Model model, @ModelAttribute(name = "setting") Setting setting) {
         settingService.updateBasicSalaryOfLowestGrade(setting);
         model.addAttribute("message", "Updated successfully");
-        return "redirect:/settings";
+        return "redirect:/settings/salary";
     }
+
 
 }

@@ -21,7 +21,7 @@ public class BankAccount {
     private String accountNumber;
 
     @Column(name = "current_balance")
-    private long currentBalance = 0;
+    private Long currentBalance;
 
     @Column(name = "bank_name")
     private String bankName;
@@ -65,11 +65,11 @@ public class BankAccount {
         this.accountNumber = accountNumber;
     }
 
-    public long getCurrentBalance() {
+    public Long getCurrentBalance() {
         return currentBalance;
     }
 
-    public void setCurrentBalance(long currentBalance) {
+    public void setCurrentBalance(Long currentBalance) {
         this.currentBalance = currentBalance;
     }
 
