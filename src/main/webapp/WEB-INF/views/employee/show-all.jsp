@@ -20,23 +20,33 @@
                     <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Profile Picture</th>
                         <th>Username</th>
-                        <th>Role</th>
-                        <th>Action</th>
+                        <th>Grade</th>
+                        <th>Salary</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
                     <c:forEach items="${ users }" var="user">
                         <tr>
                             <td>${ user.id }</td>
-                            <td><img class="img-responsive" width="60px"
-                                     src="${pageContext.request.contextPath }/images/${user.propic}"></td>
                             <td>${ user.username }</td>
-                            <td><c:forEach items="${user.authorities}" var="authority">
-                                <div>${authority.authority}</div>
-                            </c:forEach></td>
-                            <td></td>
+                            <td>${ user.grade }</td>
+                            <td>${ user.salary }</td>
+                            <td>
+                                <a href="#" class="btn btn-success btn-icon-split">
+                                    <span class="icon text-white-50"><i class="fas fa-dollar-sign"></i></span>
+                                    <span class="text">Pay</span>
+                                </a>
+
+                            </td>
+                            <td>
+                                <a href="#" class="btn btn-primary btn-icon-split">
+                                    <span class="icon text-white-50"><i class="fas fa-info-circle"></i></span>
+                                    <span class="text">Details</span>
+                                </a>
+                            </td>
                         </tr>
                     </c:forEach>
 

@@ -7,6 +7,7 @@ import com.jamilxt.esmpanel.model.Authority;
 import com.jamilxt.esmpanel.model.User;
 import com.jamilxt.esmpanel.repositories.UserRepository;
 import com.jamilxt.esmpanel.request.UserRequest;
+import com.jamilxt.esmpanel.response.UserResponse;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,11 +23,13 @@ public class UserService extends BaseService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityService authorityService;
+    private final SettingService settingService;
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, AuthorityService authorityService, SettingService settingService) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityService = authorityService;
+        this.settingService = settingService;
     }
 
     @Override
@@ -36,8 +39,47 @@ public class UserService extends BaseService implements UserDetailsService {
         return userEntity;
     }
 
-    public List<com.jamilxt.esmpanel.model.User> showAll() {
-        return userRepository.findAllByActiveIsTrue();
+    public List<UserResponse> showAll() {
+        List<UserResponse> userList = new ArrayList<>();
+        for (User user : userRepository.findAllByActiveIsTrue()) {
+            if (!user.getUsername().equals("admin")) {
+                UserResponse userResponse = new UserResponse();
+                userResponse.setId(user.getId());
+                userResponse.setPropic(user.getPropic());
+                userResponse.setUsername(user.getUsername());
+                userResponse.setGrade(user.getGrade());
+                userResponse.setSalary(getSalaryBasedOnGrade(user.getGrade()));
+                userList.add(userResponse);
+            }
+        }
+        return userList;
+    }
+
+    private Long getSalaryBasedOnGrade(int grade) {
+        Long salary = 0L;
+        switch (grade) {
+            case 1:
+                salary = settingService.getLowestGradeBasicSalaryValue() + (5000 * 5);
+                break;
+            case 2:
+                salary = settingService.getLowestGradeBasicSalaryValue() + (5000 * 4);
+                break;
+            case 3:
+                salary = settingService.getLowestGradeBasicSalaryValue() + (5000 * 3);
+                break;
+            case 4:
+                salary = settingService.getLowestGradeBasicSalaryValue() + (5000 * 2);
+                break;
+            case 5:
+                salary = settingService.getLowestGradeBasicSalaryValue() + 5000;
+                break;
+            case 6:
+                salary = settingService.getLowestGradeBasicSalaryValue();
+                break;
+        }
+
+        return salary;
+
     }
 
     public void addUser(UserDto userDto) {

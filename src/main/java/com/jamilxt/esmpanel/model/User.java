@@ -33,7 +33,7 @@ public class User implements UserDetails, Serializable {
     @Column(name = "pro_pic")
     private String propic = "default.png";
     @Column(name = "grade")
-    private String grade;
+    private Integer grade;
     @Column(name = "address")
     private String address;
     @Column(name = "phone_number")
@@ -50,9 +50,6 @@ public class User implements UserDetails, Serializable {
     private boolean accountNonLocked = true;
     @Column(nullable = false, name = "credentialsNonExpired")
     private boolean credentialsNonExpired = true;
-
-    @OneToOne
-    private BankAccount bankAccount;
 
     public long getId() {
         return id;
@@ -137,11 +134,11 @@ public class User implements UserDetails, Serializable {
         this.propic = propic;
     }
 
-    public String getGrade() {
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(String grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 
@@ -183,14 +180,6 @@ public class User implements UserDetails, Serializable {
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
-    }
-
-    public BankAccount getBankAccount() {
-        return bankAccount;
-    }
-
-    public void setBankAccount(BankAccount bankAccount) {
-        this.bankAccount = bankAccount;
     }
 
 }
