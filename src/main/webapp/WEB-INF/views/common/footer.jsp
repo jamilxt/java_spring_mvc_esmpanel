@@ -28,7 +28,7 @@
             aria-labelledby="exampleModalLabel"
             aria-hidden="true"
     >
-        <div class="modal-dialog" role="document">
+        <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">
@@ -40,7 +40,7 @@
                             data-dismiss="modal"
                             aria-label="Close"
                     >
-                        <span aria-hidden="true">×</span>
+                        <span aria-hidden="true">x</span>
                     </button>
                 </div>
                 <div class="modal-body">
@@ -48,14 +48,7 @@
                     session.
                 </div>
                 <div class="modal-footer">
-                    <button
-                            class="btn btn-secondary"
-                            type="button"
-                            data-dismiss="modal"
-                    >
-                        Cancel
-                    </button>
-                    <a class="btn btn-primary" href="/logout">Logout</a>
+                    <a class="btn btn-danger w-100" href="${ pageContext.request.contextPath }/logout">Logout</a>
                 </div>
             </div>
         </div>
