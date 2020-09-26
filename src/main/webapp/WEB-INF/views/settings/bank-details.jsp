@@ -91,7 +91,42 @@
                                             readonly="true"/>
                                 <sec:authorize access="hasRole('ADMIN')">
                                     <div class="input-group-append">
-                                        <button class="btn btn-success" type="button">Recharge</button>
+                                        <button class="btn btn-success" type="button" data-toggle="modal"
+                                                data-target="#rechargeModalCenter">Recharge
+                                        </button>
+                                    </div>
+
+                                    <!-- Modal -->
+                                    <div class="modal fade text-center" id="rechargeModalCenter" tabindex="-1"
+                                         role="dialog"
+                                         aria-labelledby="rechargeModalCenterTitle" aria-hidden="true">
+                                        <div class="modal-dialog modal-dialog-centered" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="rechargeModalCenterTitle">Recharge to
+                                                        your <b>account</b></h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <h1 class="font-weight-bold ">
+                                                        <div class="input-group mb-3">
+                                                            <div class="input-group-prepend">
+                                                                <span class="input-group-text">BDT: </span>
+                                                            </div>
+                                                            <input type="number" min="1" class="form-control"
+                                                                   required="required" placeholder="Enter your amount">
+                                                        </div>
+                                                    </h1>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-success w-100">Recharge
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </sec:authorize>
                             </div>

@@ -75,59 +75,59 @@
 </div>
 
 <script>
-    var password = document.getElementById("password")
-        , confirm_password = document.getElementById("confirm_password");
+var password = document.getElementById("password")
+  , confirm_password = document.getElementById("confirm_password");
 
-    function validatePassword() {
-        if (password.value !== confirm_password.value) {
-            confirm_password.setCustomValidity("Password doesn't match");
-        } else {
-            confirm_password.setCustomValidity('');
-        }
-    }
+function validatePassword () {
+  if (password.value !== confirm_password.value) {
+    confirm_password.setCustomValidity("Password doesn't match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
 
-    password.onchange = validatePassword;
-    confirm_password.onkeyup = validatePassword;
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
 
 </script>
 
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $('#username').focusout(function () {
-            $.get("/user/is_available", {
-                username: $('#username').val()
-            }, function (response) {
-                $('#Result').fadeOut();
-                setTimeout("finishAjax('Result', '" + escape(response) + "')", 400);
-            });
-            return false;
-        });
+$(document).ready(function () {
+  $('#username').focusout(function () {
+    $.get("/user/is_available", {
+      username: $('#username').val()
+    }, function (response) {
+      $('#Result').fadeOut();
+      setTimeout("finishAjax('Result', '" + escape(response) + "')", 400);
     });
+    return false;
+  });
+});
 
-    function finishAjax(id, response) {
-        $('#Result').hide();
-        if (response === "true") {
-            $('#btnSubmit').prop('disabled', false);
-            response = "<span class='badge badge-success'>" + "Available" + "</div>";
-        } else {
-            $('#btnSubmit').prop('disabled', true);
-            response = "<span class='badge badge-danger'>" + "Unavailable" + "</div>";
-        }
-        $('#' + id).html(unescape(response));
-        $('#' + id).fadeIn();
+function finishAjax (id, response) {
+  $('#Result').hide();
+  if (response === "true") {
+    $('#btnSubmit').prop('disabled', false);
+    response = "<span class='badge badge-success'>" + "Available" + "</div>";
+  } else {
+    $('#btnSubmit').prop('disabled', true);
+    response = "<span class='badge badge-danger'>" + "Unavailable" + "</div>";
+  }
+  $('#' + id).html(unescape(response));
+  $('#' + id).fadeIn();
 
-    }
+}
 </script>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
-    $(function () {
-        $("#datepicker").datepicker({
-            dateFormat: "yy-mm-dd"
-        });
-    });
+$(function () {
+  $("#datepicker").datepicker({
+    dateFormat: "yy-mm-dd"
+  });
+});
 </script>
 
 

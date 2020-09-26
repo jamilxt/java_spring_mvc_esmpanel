@@ -101,7 +101,7 @@
             <!-- Nav Item - Tables -->
             <li class="nav-item">
                 <a class="nav-link" href="${ pageContext.request.contextPath }/employee">
-                    <i class="fas fa-fw fa-wrench"></i>
+                    <i class="fas fa-fw fa-user"></i>
                     <span>Employee List</span></a
                 >
             </li>
@@ -109,7 +109,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="${ pageContext.request.contextPath }/salary-sheet">
-                <i class="fas fa-fw fa-wrench"></i>
+                <i class="fas fa-fw fa-calendar"></i>
                 <span><sec:authorize access="hasRole('EMPLOYEE')">My </sec:authorize>Salary Sheet</span></a
             >
         </li>

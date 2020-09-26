@@ -34,4 +34,25 @@ public class BankAccountService {
         bankAccountRepository.save(newBankDetails);
     }
 
+    public void paySalaryToAUser(BankAccount bankAccount, Long amount) {
+        var newBankDetails = bankAccountRepository.findByUserUsername(bankAccount.getUser().getUsername());
+        // add new amount
+        newBankDetails.setCurrentBalance(newBankDetails.getCurrentBalance() + amount);
+        // deduct from company
+        BeanUtils.copyProperties(bankAccount, newBankDetails);
+        bankAccountRepository.save(newBankDetails);
+    }
+
+    public void deductAmountFromCompany(Long amount) {
+        var companyBankDetails = bankAccountRepository.findByUserUsername("admin");
+        companyBankDetails.setCurrentBalance(companyBankDetails.getCurrentBalance() - amount);
+        bankAccountRepository.save(companyBankDetails);
+    }
+
+    public void rechargeAmountOnCompany(Long amount) {
+        var companyBankDetails = bankAccountRepository.findByUserUsername("admin");
+        companyBankDetails.setCurrentBalance(companyBankDetails.getCurrentBalance() + amount);
+        bankAccountRepository.save(companyBankDetails);
+    }
+
 }

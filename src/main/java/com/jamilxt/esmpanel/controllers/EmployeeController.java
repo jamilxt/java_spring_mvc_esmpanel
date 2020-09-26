@@ -1,11 +1,24 @@
 package com.jamilxt.esmpanel.controllers;
 
+import com.jamilxt.esmpanel.dtos.UserDto;
+import com.jamilxt.esmpanel.model.User;
 import com.jamilxt.esmpanel.service.*;
+import com.jamilxt.esmpanel.util.Constants;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.util.HashMap;
 
 @Controller
 public class EmployeeController extends BaseService {
@@ -34,7 +47,7 @@ public class EmployeeController extends BaseService {
         return "/employee/show-all";
     }
 
-   /* @GetMapping("/employee/add")
+    @GetMapping("/employee/add")
     public String getAddUser(Model model) {
         model.addAttribute("pageTitle", "Add User");
         model.addAttribute("authUser", getLoggedInUser());
@@ -94,6 +107,6 @@ public class EmployeeController extends BaseService {
     ResponseEntity<?> searchUserByUsername(@RequestParam(name = "term") String query) {
         var data = userService.findUser(query);
         return new ResponseEntity<>(data, HttpStatus.OK);
-    }*/
+    }
 
 }

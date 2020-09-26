@@ -35,17 +35,71 @@
                             <td>${ user.grade }</td>
                             <td>${ user.salary }</td>
                             <td>
-                                <a href="#" class="btn btn-success btn-icon-split">
+                                <button class="btn btn-success btn-icon-split" data-toggle="modal"
+                                        data-target="#payModalCenter${ user.id }">
                                     <span class="icon text-white-50"><i class="fas fa-dollar-sign"></i></span>
                                     <span class="text">Pay</span>
-                                </a>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade text-center" id="payModalCenter${ user.id }" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="payModalCenterTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="payModalCenterTitle">Pay Salary to
+                                                    <b>${user.username}</b></h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h1 class="font-weight-bold ">${ user.salary }<sup
+                                                        class="small"><small>BDT</small></sup></h1>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-success w-100">Confirm</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </td>
                             <td>
-                                <a href="#" class="btn btn-primary btn-icon-split">
+                                <button class="btn btn-primary btn-icon-split" data-toggle="modal"
+                                        data-target="#detailModalScrollable${ user.id }">
                                     <span class="icon text-white-50"><i class="fas fa-info-circle"></i></span>
                                     <span class="text">Details</span>
-                                </a>
+                                </button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="detailModalScrollable${ user.id }" tabindex="-1"
+                                     role="dialog"
+                                     aria-labelledby="detailModalScrollableTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-scrollable  modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="detailModalScrollableTitle">
+                                                    <b>${user.username}</b>'s Details</h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary w-100"
+                                                        data-dismiss="modal">
+                                                    Close
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </td>
                         </tr>
                     </c:forEach>
