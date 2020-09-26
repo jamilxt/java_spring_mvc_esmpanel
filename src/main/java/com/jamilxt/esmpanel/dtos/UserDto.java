@@ -1,7 +1,6 @@
 package com.jamilxt.esmpanel.dtos;
 
 import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.List;
 
 public class UserDto implements Serializable {
@@ -10,8 +9,9 @@ public class UserDto implements Serializable {
     private List<String> authorityNames;
     private String fullName;
     private String email;
-    private String gender;
-    private LocalDate dob;
+    private Integer grade;
+    private String address;
+    private String phoneNumber;
     private Boolean active = true;
     private String propic = "default.png";
 
@@ -55,21 +55,6 @@ public class UserDto implements Serializable {
         this.email = email;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public LocalDate getDob() {
-        return dob;
-    }
-
-    public void setDob(LocalDate dob) {
-        this.dob = dob;
-    }
 
     public Boolean getActive() {
         return active;
@@ -86,4 +71,29 @@ public class UserDto implements Serializable {
     public void setPropic(String propic) {
         this.propic = propic;
     }
+
+    public Integer getGrade() {
+        return grade;
+    }
+
+    public void setGrade(Integer grade) {
+        this.grade = grade;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 }

@@ -1,7 +1,7 @@
 package com.jamilxt.esmpanel.controllers;
 
 import com.jamilxt.esmpanel.dtos.UserDto;
-import com.jamilxt.esmpanel.model.User;
+import com.jamilxt.esmpanel.request.User;
 import com.jamilxt.esmpanel.service.*;
 import com.jamilxt.esmpanel.util.Constants;
 import org.springframework.beans.BeanUtils;
@@ -17,8 +17,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.util.HashMap;
 
 @Controller
 public class EmployeeController extends BaseService {
@@ -48,23 +46,19 @@ public class EmployeeController extends BaseService {
     }
 
     @GetMapping("/employee/add")
-    public String getAddUser(Model model) {
+    public String getAddUser(Model model, @ModelAttribute("user") User user) {
         model.addAttribute("pageTitle", "Add User");
         model.addAttribute("authUser", getLoggedInUser());
         model.addAttribute("balance", bankAccountService.getBankBalanceByUsername(getLoggedInUser().getUsername()));
         model.addAttribute("user", new User());
         model.addAttribute("message", "Add a new User");
-        var genders = new HashMap<String, String>();
-        genders.put("M", "Male");
-        genders.put("F", "Female");
-        model.addAttribute("genders", genders);
         System.out.println(authorityService.listAllAuthorities().size());
         model.addAttribute("authorities", authorityService.listAllAuthorities());
         return "employee/add";
     }
 
     @PostMapping("/employee/add")
-    public String addUser(Model model, @ModelAttribute("user") User user, @RequestParam("dob_f") String dob_f, @RequestParam("file") MultipartFile file) {
+    public String addUser(Model model, @ModelAttribute("user") User user, @RequestParam("file") MultipartFile file) {
 
         if (!file.isEmpty()) {
             try {
@@ -79,12 +73,11 @@ public class EmployeeController extends BaseService {
         }
 
         var userDto = new UserDto();
-        userDto.setDob(LocalDate.parse(dob_f));
         BeanUtils.copyProperties(user, userDto);
         userService.addUser(userDto);
 
         model.addAttribute("message", "User added successfully");
-        return "redirect:/employee/show-all";
+        return "redirect:/employee";
 
     }
 
@@ -92,7 +85,7 @@ public class EmployeeController extends BaseService {
     public String deleteUser(Model model, @RequestParam("userId") long userId) {
         userService.deleteUser(userId);
         model.addAttribute("message", "User deleted successfully");
-        return "redirect:/employee/show-all";
+        return "redirect:/employee";
     }
 
     @GetMapping(value = "employee/is_available")

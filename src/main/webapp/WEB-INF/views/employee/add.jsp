@@ -6,72 +6,94 @@
 <!-- HEADER -->
 <jsp:include page="../common/header.jsp"/>
 
-<!-- MAIN CONTENT OF THE PAGE -->
-<div class="container">
 
-    <h3 class="mt-3 mb-3">${ pageTitle }
-        <a href="${pageContext.request.contextPath }/user/show-all"
-           class="btn btn-primary float-right">User List</a>
-    </h3>
+<!-- Begin Page Content -->
+<div class="container-fluid">
 
-    <form:form action="${pageContext.request.contextPath }/user/add"
-               modelAttribute="user"
-               enctype="multipart/form-data">
-        <div class="form-group">
-            <label>Username</label> <span id="Result" align="center"></span>
-            <form:input path="username" class="form-control" id="username" required="required"></form:input>
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Register Employee
+                <a href="${ pageContext.request.contextPath }/employee"
+                        class="btn btn-primary btn-icon-split float-right">
+                    <span class="icon text-white-50">
+                      <i class="fas fa-user"></i>
+                    </span>
+                    <span class="text">Employee List</span>
+                </a></h6>
         </div>
-        <div class="form-group">
-            <label>Password</label>
-            <form:input path="password" class="form-control" type="password" id="password"
-                        required="required"></form:input>
+        <div class="card-body">
+
+            <form:form action="${pageContext.request.contextPath }/employee/add"
+                       modelAttribute="user"
+                       enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Username</label> <span id="Result" align="center"></span>
+                    <form:input path="username" class="form-control" id="username" required="required"></form:input>
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <form:input path="password" class="form-control" type="password" id="password"
+                                required="required"></form:input>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <form:input path="" class="form-control" type="password" id="confirm_password"
+                                required="required"></form:input>
+                </div>
+
+                <div class="form-group">
+                    <label>Role</label>
+                    <form:select class="form-control" multiple="false" path="authorityNames">
+                        <form:options items="${authorities}" itemLabel="authority"
+                                      itemValue="authority"></form:options>
+                    </form:select>
+                </div>
+
+                <h5 class="mt-3 mb-3">Personal Information</h5>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <form:input path="fullName" class="form-control" required="required"></form:input>
+                </div>
+
+                <div class="form-group">
+                    <label>Email</label>
+                    <form:input path="email" class="form-control" type="email" required="required"></form:input>
+                </div>
+
+
+                <div class="form-group">
+                    <label>Profile Picture</label> <br>
+                    <input type="file" name="file"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Grade</label>
+                    <form:select class="form-control" multiple="false" path="grade">
+                        <form:option value="6" label="6th Grade"/>
+                        <form:option value="5" label="5th Grade"/>
+                        <form:option value="4" label="4th Grade"/>
+                        <form:option value="3" label="3rd Grade"/>
+                        <form:option value="2" label="2nd Grade"/>
+                        <form:option value="1" label="1st Grade"/>
+                    </form:select>
+                </div>
+
+                <div class="form-group">
+                    <label>Address</label>
+                    <form:input path="address" class="form-control" type="text" required="required"></form:input>
+                </div>
+
+                <div class="form-group">
+                    <label>Phone Number</label>
+                    <form:input path="phoneNumber" class="form-control" type="number" required="required"></form:input>
+                </div>
+
+                <input type="submit" name="submit" value="Add"
+                       class="btn btn-primary btn-lg btn-block mt-5" id="btnSubmit">
+            </form:form>
         </div>
-
-        <div class="form-group">
-            <label>Confirm Password</label>
-            <form:input path="" class="form-control" type="password" id="confirm_password"
-                        required="required"></form:input>
-        </div>
-
-        <div class="form-group">
-            <label>Role</label>
-            <form:select class="form-control" multiple="true" path="authorityNames">
-                <form:options items="${authorities}" itemLabel="authority"
-                              itemValue="authority"></form:options>
-            </form:select>
-        </div>
-
-        <h5 class="mt-3 mb-3">Personal Information</h5>
-        <div class="form-group">
-            <label>Full Name</label>
-            <form:input path="fullName" class="form-control" required="required"></form:input>
-        </div>
-
-        <div class="form-check">
-            <label>Gender</label><br>
-            <form:radiobuttons path="gender" items="${genders}"></form:radiobuttons>
-        </div>
-
-        <div class="form-group">
-            <label>Email</label>
-            <form:input path="email" class="form-control" type="email" required="required"></form:input>
-        </div>
-
-
-        <div class="form-group">
-            <label>Date of Birth</label>
-            <input class="form-control" type="text" id="datepicker" required="required" name="dob_f"/>
-        </div>
-
-        <div class="form-group">
-            <label>Profile Picture</label> <br>
-            <input type="file" name="file"/>
-        </div>
-
-        <input type="submit" name="submit" value="Add"
-               class="btn btn-primary btn-lg btn-block mt-5" id="btnSubmit" disabled="true">
-    </form:form>
-
+    </div>
 </div>
 
 <script>
@@ -95,7 +117,7 @@ confirm_password.onkeyup = validatePassword;
 <script type="text/javascript">
 $(document).ready(function () {
   $('#username').focusout(function () {
-    $.get("/user/is_available", {
+    $.get("/employee/is_available", {
       username: $('#username').val()
     }, function (response) {
       $('#Result').fadeOut();
@@ -122,13 +144,6 @@ function finishAjax (id, response) {
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script>
-$(function () {
-  $("#datepicker").datepicker({
-    dateFormat: "yy-mm-dd"
-  });
-});
-</script>
 
 
 <!-- FOOTER -->
